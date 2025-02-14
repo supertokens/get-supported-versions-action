@@ -12,7 +12,10 @@ export async function run() {
   const inputs = getInputs()
 
   if (inputs.hasCdi) {
-    const cdiFile = await fs.readFile('coreDriverInterfaceSupported', 'utf-8')
+    const cdiFile = await fs.readFile(
+      'coreDriverInterfaceSupported.json',
+      'utf-8'
+    )
     const cdiVersions: string[] = JSON.parse(cdiFile).versions
 
     core.setOutput('cdi-versions', JSON.stringify(cdiVersions))
@@ -20,7 +23,7 @@ export async function run() {
 
   if (inputs.hasFdi) {
     const fdiFile = await fs.readFile(
-      'frontendDriverInterfaceSupported',
+      'frontendDriverInterfaceSupported.json',
       'utf-8'
     )
     const fdiVersions: string[] = JSON.parse(fdiFile).versions

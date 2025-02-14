@@ -27255,12 +27255,12 @@ function getInputs() {
 async function run() {
     const inputs = getInputs();
     if (inputs.hasCdi) {
-        const cdiFile = await promises.readFile('coreDriverInterfaceSupported', 'utf-8');
+        const cdiFile = await promises.readFile('coreDriverInterfaceSupported.json', 'utf-8');
         const cdiVersions = JSON.parse(cdiFile).versions;
         coreExports.setOutput('cdi-versions', JSON.stringify(cdiVersions));
     }
     if (inputs.hasFdi) {
-        const fdiFile = await promises.readFile('frontendDriverInterfaceSupported', 'utf-8');
+        const fdiFile = await promises.readFile('frontendDriverInterfaceSupported.json', 'utf-8');
         const fdiVersions = JSON.parse(fdiFile).versions;
         coreExports.setOutput('fdi-versions', JSON.stringify(fdiVersions));
     }
