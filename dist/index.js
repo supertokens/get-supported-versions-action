@@ -1,6 +1,6 @@
 import require$$0 from 'os';
 import require$$0$1 from 'crypto';
-import require$$1 from 'fs';
+import require$$1, { promises } from 'fs';
 import require$$1$5 from 'path';
 import require$$2 from 'http';
 import require$$3 from 'https';
@@ -27246,41 +27246,23 @@ function requireCore () {
 
 var coreExports = requireCore();
 
-/**
- * Waits for a number of milliseconds.
- *
- * @param milliseconds The number of milliseconds to wait.
- * @returns Resolves with 'done!' after the wait is over.
- */
-async function wait(milliseconds) {
-    return new Promise((resolve) => {
-        if (isNaN(milliseconds))
-            throw new Error('milliseconds is not a number');
-        setTimeout(() => resolve('done!'), milliseconds);
-    });
+function getInputs() {
+    return {
+        hasCdi: coreExports.getBooleanInput('has-cdi', { required: true }),
+        hasFdi: coreExports.getBooleanInput('has-fdi', { required: true })
+    };
 }
-
-/**
- * The main function for the action.
- *
- * @returns Resolves when the action is complete.
- */
 async function run() {
-    try {
-        const ms = coreExports.getInput('milliseconds');
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        coreExports.debug(`Waiting ${ms} milliseconds ...`);
-        // Log the current timestamp, wait, then log the new timestamp
-        coreExports.debug(new Date().toTimeString());
-        await wait(parseInt(ms, 10));
-        coreExports.debug(new Date().toTimeString());
-        // Set outputs for other workflow steps to use
-        coreExports.setOutput('time', new Date().toTimeString());
+    const inputs = getInputs();
+    if (inputs.hasCdi) {
+        const cdiFile = await promises.readFile('coreDriverInterfaceSupported', 'utf-8');
+        const cdiVersions = JSON.parse(cdiFile).versions;
+        coreExports.setOutput('cdi-versions', JSON.stringify(cdiVersions));
     }
-    catch (error) {
-        // Fail the workflow run if an error occurs
-        if (error instanceof Error)
-            coreExports.setFailed(error.message);
+    if (inputs.hasFdi) {
+        const fdiFile = await promises.readFile('frontendDriverInterfaceSupported', 'utf-8');
+        const fdiVersions = JSON.parse(fdiFile).versions;
+        coreExports.setOutput('fdi-versions', JSON.stringify(fdiVersions));
     }
 }
 
@@ -27288,6 +27270,13 @@ async function run() {
  * The entrypoint for the action. This file simply imports and runs the action's
  * main logic.
  */
-/* istanbul ignore next */
-run();
+try {
+    /* istanbul ignore next */
+    run();
+}
+catch (error) {
+    // Fail the workflow run if an error occurs
+    if (error instanceof Error)
+        coreExports.setFailed(error.message);
+}
 //# sourceMappingURL=index.js.map

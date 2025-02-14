@@ -21,7 +21,7 @@ inputs:
 outputs:
   cdi-versions:
     description: List of CDI versions
-  
+
   fdi-versions:
     description: List of FDI versions
 
