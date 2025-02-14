@@ -1,23 +1,29 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: Get CDI/FDI versions from files
+description: Get CDI/FDI versions from files
+author: Supertokens
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: heart
-  color: red
+# # Add your action's branding here. This will appear on the GitHub Marketplace.
+# branding:
+#   icon: heart
+#   color: red
 
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
+  has-cdi:
+    description: Whether the repository contains a coreDriverInterface file
     required: true
-    default: '1000'
+    default: true
 
-# Define your outputs here.
+  has-fdi:
+    description: Whether the repository contains a frontendDriverInterface file
+    required: true
+    default: true
+
 outputs:
-  time:
-    description: Your output description here
+  cdi-versions:
+    description: List of CDI versions
+  
+  fdi-versions:
+    description: List of FDI versions
 
 runs:
   using: node20
