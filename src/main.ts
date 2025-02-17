@@ -3,8 +3,9 @@ import { promises as fs } from 'fs'
 
 function getInputs() {
   return {
-    hasCdi: core.getBooleanInput('has-cdi', { required: true }),
-    hasFdi: core.getBooleanInput('has-fdi', { required: true })
+    hasCdi: core.getBooleanInput('has-cdi', { required: false }),
+    hasFdi: core.getBooleanInput('has-fdi', { required: false }),
+    hasCommon: core.getBooleanInput('has-common', { required: false })
   }
 }
 
@@ -18,7 +19,7 @@ export async function run() {
     )
     const cdiVersions: string[] = JSON.parse(cdiFile).versions
 
-    core.setOutput('cdi-versions', JSON.stringify(cdiVersions))
+    core.setOutput('cdiVersions', JSON.stringify(cdiVersions))
   }
 
   if (inputs.hasFdi) {
@@ -28,6 +29,12 @@ export async function run() {
     )
     const fdiVersions: string[] = JSON.parse(fdiFile).versions
 
-    core.setOutput('fdi-versions', JSON.stringify(fdiVersions))
+    core.setOutput('fdiVersions', JSON.stringify(fdiVersions))
+  }
+
+  if (inputs.hasCommon) {
+    const commonFile = await fs.readFile('supportedVersions.json', 'utf-8')
+    const versions = JSON.parse(commonFile)
+    core.setOutput('versions', JSON.stringify(versions))
   }
 }

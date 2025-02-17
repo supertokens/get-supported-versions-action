@@ -27248,8 +27248,9 @@ var coreExports = requireCore();
 
 function getInputs() {
     return {
-        hasCdi: coreExports.getBooleanInput('has-cdi', { required: true }),
-        hasFdi: coreExports.getBooleanInput('has-fdi', { required: true })
+        hasCdi: coreExports.getBooleanInput('has-cdi', { required: false }),
+        hasFdi: coreExports.getBooleanInput('has-fdi', { required: false }),
+        hasCommon: coreExports.getBooleanInput('has-common', { required: false })
     };
 }
 async function run() {
@@ -27257,12 +27258,17 @@ async function run() {
     if (inputs.hasCdi) {
         const cdiFile = await promises.readFile('coreDriverInterfaceSupported.json', 'utf-8');
         const cdiVersions = JSON.parse(cdiFile).versions;
-        coreExports.setOutput('cdi-versions', JSON.stringify(cdiVersions));
+        coreExports.setOutput('cdiVersions', JSON.stringify(cdiVersions));
     }
     if (inputs.hasFdi) {
         const fdiFile = await promises.readFile('frontendDriverInterfaceSupported.json', 'utf-8');
         const fdiVersions = JSON.parse(fdiFile).versions;
-        coreExports.setOutput('fdi-versions', JSON.stringify(fdiVersions));
+        coreExports.setOutput('fdiVersions', JSON.stringify(fdiVersions));
+    }
+    if (inputs.hasCommon) {
+        const commonFile = await promises.readFile('supportedVersions.json', 'utf-8');
+        const versions = JSON.parse(commonFile);
+        coreExports.setOutput('versions', JSON.stringify(versions));
     }
 }
 

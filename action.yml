@@ -10,20 +10,28 @@ author: Supertokens
 inputs:
   has-cdi:
     description: Whether the repository contains a coreDriverInterface file
-    required: true
-    default: true
+    required: false
+    default: false
 
   has-fdi:
     description: Whether the repository contains a frontendDriverInterface file
-    required: true
-    default: true
+    required: false
+    default: false
+
+  has-common:
+    description: Whether the repository contains a supportedVersions file
+    required: false
+    default: false
 
 outputs:
-  cdi-versions:
-    description: List of CDI versions
+  cdiVersions:
+    description: List of CDI versions from the coreDriverInterface file
 
-  fdi-versions:
-    description: List of FDI versions
+  fdiVersions:
+    description: List of FDI versions from the frontendDriverInterface file
+
+  versions:
+    description: Stringified JSON of the versions file
 
 runs:
   using: node20
