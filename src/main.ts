@@ -19,6 +19,7 @@ export async function run() {
     )
     const cdiVersions: string[] = JSON.parse(cdiFile).versions
 
+    core.info(`cdiVersions=${cdiVersions}`)
     core.setOutput('cdiVersions', JSON.stringify(cdiVersions))
   }
 
@@ -29,12 +30,15 @@ export async function run() {
     )
     const fdiVersions: string[] = JSON.parse(fdiFile).versions
 
+    core.info(`fdiVersions=${fdiVersions}`)
     core.setOutput('fdiVersions', JSON.stringify(fdiVersions))
   }
 
   if (inputs.hasCommon) {
     const commonFile = await fs.readFile('supportedVersions.json', 'utf-8')
     const versions = JSON.parse(commonFile)
+
+    core.info(`versions=${versions}`)
     core.setOutput('versions', JSON.stringify(versions))
   }
 }
