@@ -5,6 +5,7 @@ function getInputs() {
   return {
     hasCdi: core.getBooleanInput('has-cdi', { required: false }),
     hasFdi: core.getBooleanInput('has-fdi', { required: false }),
+    hasWebJs: core.getBooleanInput('has-web-js', { required: false }),
     hasCommon: core.getBooleanInput('has-common', { required: false })
   }
 }
@@ -32,6 +33,14 @@ export async function run() {
 
     core.info(`fdiVersions=${fdiVersions}`)
     core.setOutput('fdiVersions', JSON.stringify(fdiVersions))
+  }
+
+  if (inputs.hasWebJs) {
+    const webJsFile = await fs.readFile('webJsInterfaceSupported.json', 'utf-8')
+    const webJsVersion: string = JSON.parse(webJsFile).version
+
+    core.info(`webJsVersion=${webJsVersion}`)
+    core.setOutput('webJsVersion', webJsVersion)
   }
 
   if (inputs.hasCommon) {
