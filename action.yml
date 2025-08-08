@@ -35,7 +35,7 @@ outputs:
   fdiVersions:
     description: List of FDI versions from the frontendDriverInterfaceSupported file
 
-  webJsVersion:
+  webJsInterfaceVersion:
     description: The web-js interface version from the webJsInterfaceSupported file
 
   versions:

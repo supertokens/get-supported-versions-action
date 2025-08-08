@@ -37,10 +37,10 @@ export async function run() {
 
   if (inputs.hasWebJs) {
     const webJsFile = await fs.readFile('webJsInterfaceSupported.json', 'utf-8')
-    const webJsVersion: string = JSON.parse(webJsFile).version
+    const webJsInterfaceVersion: string = JSON.parse(webJsFile).version
 
-    core.info(`webJsVersion=${webJsVersion}`)
-    core.setOutput('webJsVersion', webJsVersion)
+    core.info(`webJsInterfaceVersion=${webJsInterfaceVersion}`)
+    core.setOutput('webJsInterfaceVersion', webJsInterfaceVersion)
   }
 
   if (inputs.hasCommon) {
