@@ -27250,24 +27250,38 @@ function getInputs() {
     return {
         hasCdi: coreExports.getBooleanInput('has-cdi', { required: false }),
         hasFdi: coreExports.getBooleanInput('has-fdi', { required: false }),
-        hasCommon: coreExports.getBooleanInput('has-common', { required: false })
+        hasWebJs: coreExports.getBooleanInput('has-web-js', { required: false }),
+        hasCommon: coreExports.getBooleanInput('has-common', { required: false }),
+        workingDirectory: coreExports.getInput('working-directory', {
+            required: false
+        })
     };
 }
 async function run() {
     const inputs = getInputs();
+    const basePath = inputs.workingDirectory ? `${inputs.workingDirectory}/` : '';
     if (inputs.hasCdi) {
-        const cdiFile = await promises.readFile('coreDriverInterfaceSupported.json', 'utf-8');
+        const cdiFile = await promises.readFile(`${basePath}coreDriverInterfaceSupported.json`, 'utf-8');
         const cdiVersions = JSON.parse(cdiFile).versions;
+        coreExports.info(`cdiVersions=${cdiVersions}`);
         coreExports.setOutput('cdiVersions', JSON.stringify(cdiVersions));
     }
     if (inputs.hasFdi) {
-        const fdiFile = await promises.readFile('frontendDriverInterfaceSupported.json', 'utf-8');
+        const fdiFile = await promises.readFile(`${basePath}frontendDriverInterfaceSupported.json`, 'utf-8');
         const fdiVersions = JSON.parse(fdiFile).versions;
+        coreExports.info(`fdiVersions=${fdiVersions}`);
         coreExports.setOutput('fdiVersions', JSON.stringify(fdiVersions));
+    }
+    if (inputs.hasWebJs) {
+        const webJsFile = await promises.readFile(`${basePath}webJsInterfaceSupported.json`, 'utf-8');
+        const webJsInterfaceVersion = JSON.parse(webJsFile).version;
+        coreExports.info(`webJsInterfaceVersion=${webJsInterfaceVersion}`);
+        coreExports.setOutput('webJsInterfaceVersion', webJsInterfaceVersion);
     }
     if (inputs.hasCommon) {
         const commonFile = await promises.readFile('supportedVersions.json', 'utf-8');
         const versions = JSON.parse(commonFile);
+        coreExports.info(`versions=${versions}`);
         coreExports.setOutput('versions', JSON.stringify(versions));
     }
 }

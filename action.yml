@@ -9,12 +9,14 @@ author: Supertokens
 
 inputs:
   has-cdi:
-    description: Whether the repository contains a coreDriverInterfaceSupported file
+    description:
+      Whether the repository contains a coreDriverInterfaceSupported file
     required: false
     default: false
 
   has-fdi:
-    description: Whether the repository contains a frontendDriverInterfaceSupported file
+    description:
+      Whether the repository contains a frontendDriverInterfaceSupported file
     required: false
     default: false
 
@@ -38,10 +40,12 @@ outputs:
     description: List of CDI versions from the coreDriverInterfaceSupported file
 
   fdiVersions:
-    description: List of FDI versions from the frontendDriverInterfaceSupported file
+    description:
+      List of FDI versions from the frontendDriverInterfaceSupported file
 
   webJsInterfaceVersion:
-    description: The web-js interface version from the webJsInterfaceSupported file
+    description:
+      The web-js interface version from the webJsInterfaceSupported file
 
   versions:
     description: Stringified JSON of the versions file
