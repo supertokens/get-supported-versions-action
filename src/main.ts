@@ -6,16 +6,21 @@ function getInputs() {
     hasCdi: core.getBooleanInput('has-cdi', { required: false }),
     hasFdi: core.getBooleanInput('has-fdi', { required: false }),
     hasWebJs: core.getBooleanInput('has-web-js', { required: false }),
-    hasCommon: core.getBooleanInput('has-common', { required: false })
+    hasCommon: core.getBooleanInput('has-common', { required: false }),
+    workingDirectory: core.getInput('working-directory', {
+      required: false
+    })
   }
 }
 
 export async function run() {
   const inputs = getInputs()
 
+  const basePath = inputs.workingDirectory ? `${inputs.workingDirectory}/` : ''
+
   if (inputs.hasCdi) {
     const cdiFile = await fs.readFile(
-      'coreDriverInterfaceSupported.json',
+      `${basePath}coreDriverInterfaceSupported.json`,
       'utf-8'
     )
     const cdiVersions: string[] = JSON.parse(cdiFile).versions
@@ -26,7 +31,7 @@ export async function run() {
 
   if (inputs.hasFdi) {
     const fdiFile = await fs.readFile(
-      'frontendDriverInterfaceSupported.json',
+      `${basePath}frontendDriverInterfaceSupported.json`,
       'utf-8'
     )
     const fdiVersions: string[] = JSON.parse(fdiFile).versions
@@ -36,7 +41,10 @@ export async function run() {
   }
 
   if (inputs.hasWebJs) {
-    const webJsFile = await fs.readFile('webJsInterfaceSupported.json', 'utf-8')
+    const webJsFile = await fs.readFile(
+      `${basePath}webJsInterfaceSupported.json`,
+      'utf-8'
+    )
     const webJsInterfaceVersion: string = JSON.parse(webJsFile).version
 
     core.info(`webJsInterfaceVersion=${webJsInterfaceVersion}`)

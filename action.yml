@@ -28,6 +28,11 @@ inputs:
     required: false
     default: false
 
+  working-directory:
+    description: The working directory where the files are located
+    required: false
+    default: ''
+
 outputs:
   cdiVersions:
     description: List of CDI versions from the coreDriverInterfaceSupported file
